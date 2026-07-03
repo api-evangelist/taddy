@@ -1,0 +1,177 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Taddy
+providerId: taddy
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: true
+tags:
+- Podcasts
+- Comics
+- GraphQL
+- Search
+- Transcripts
+- Plans
+description: >-
+  Taddy sells access to its GraphQL podcast and comics API in request-metered
+  monthly tiers. Free ($0) includes 500 API requests per month with no credit
+  card. Pro ($75/mo) includes 100,000 requests plus 100 episode transcripts.
+  Business ($150/mo) includes 350,000 requests, 2,000 transcripts, and access
+  to webhooks. Additional transcripts are sold in packs of 3,000 for $75/mo
+  (~$0.025 per transcript), and higher request volumes (e.g. 1M requests for
+  $250/mo) are available on request.
+notes: >-
+  Verify current tier prices, request allotments, and transcript credits on the
+  Taddy pricing page during reconciliation; a free trial requires no credit card.
+sources:
+- https://taddy.org/developers
+- https://taddy.org/developers/pricing
+- https://taddy.org/developers/intro-to-taddy-graphql-api
+plans:
+- id: taddy-free
+  name: Free
+  type: free
+  description: >-
+    Free tier for evaluating the Taddy GraphQL API, no credit card required.
+  entries:
+  - label: API Requests
+    name: api_requests
+    type: limit
+    metric: requests
+    limit: 500
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0
+    userMultiplied: false
+  elements:
+  - name: Podcast Search
+  - name: Podcast Series & Episodes
+  - name: iTunes Info
+  - name: Top Charts & Popular
+  - name: Comics & Creators
+- id: taddy-pro
+  name: Pro
+  type: paid
+  description: >-
+    Production tier with 100k monthly API requests and 100 included episode
+    transcripts.
+  entries:
+  - label: Monthly Subscription
+    name: subscription
+    type: flat
+    metric: subscription
+    limit: 1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $75/month
+    userMultiplied: false
+  - label: API Requests
+    name: api_requests
+    type: limit
+    metric: requests
+    limit: 100000
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included
+    userMultiplied: false
+  - label: Episode Transcripts
+    name: transcripts
+    type: limit
+    metric: transcripts
+    limit: 100
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included
+    userMultiplied: false
+  elements:
+  - name: Podcast Search
+  - name: Podcast Series & Episodes
+  - name: Episode Transcripts
+  - name: Episode Chapters
+  - name: iTunes Info
+  - name: Top Charts & Popular
+  - name: Comics & Creators
+- id: taddy-business
+  name: Business
+  type: paid
+  description: >-
+    Higher-volume tier with 350k monthly API requests, 2,000 included episode
+    transcripts, and access to real-time webhooks.
+  entries:
+  - label: Monthly Subscription
+    name: subscription
+    type: flat
+    metric: subscription
+    limit: 1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $150/month
+    userMultiplied: false
+  - label: API Requests
+    name: api_requests
+    type: limit
+    metric: requests
+    limit: 350000
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included
+    userMultiplied: false
+  - label: Episode Transcripts
+    name: transcripts
+    type: limit
+    metric: transcripts
+    limit: 2000
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included
+    userMultiplied: false
+  elements:
+  - name: Podcast Search
+  - name: Podcast Series & Episodes
+  - name: Episode Transcripts
+  - name: Episode Chapters
+  - name: iTunes Info
+  - name: Top Charts & Popular
+  - name: Comics & Creators
+  - name: Webhooks
+- id: taddy-addons
+  name: Add-ons
+  type: usage
+  description: >-
+    Optional add-ons layered on a paid plan for extra transcripts and higher
+    request volumes.
+  entries:
+  - label: Additional Transcripts Pack
+    name: transcripts_pack
+    type: usage
+    metric: transcripts
+    limit: 3000
+    timeFrame: month
+    geo: global
+    unit: 3000
+    price: $75/month per 3,000 transcripts (~$0.025 each)
+    userMultiplied: false
+  - label: Higher Request Volume
+    name: extra_requests
+    type: usage
+    metric: requests
+    limit: 1000000
+    timeFrame: month
+    geo: global
+    unit: 1000000
+    price: from $250/month for 1M requests (contact Taddy)
+    userMultiplied: false
+  elements:
+  - name: Additional Transcripts
+  - name: Additional API Requests
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

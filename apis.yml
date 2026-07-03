@@ -1,0 +1,218 @@
+aid: taddy
+url: https://raw.githubusercontent.com/api-evangelist/taddy/refs/heads/main/apis.yml
+name: Taddy
+kind: company
+description: Taddy is a GraphQL API for podcasts and comics, giving developers access
+  to over 4 million podcasts and 200 million episodes, plus real-time full-text
+  search, automatically generated episode transcripts, chapters, iTunes metadata,
+  daily top charts, webcomic and creator data, and webhook notifications for new or
+  updated content. All queries hit a single GraphQL endpoint at https://api.taddy.org
+  authenticated with X-USER-ID and X-API-KEY headers.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Podcasts
+- Comics
+- GraphQL
+- Search
+- Transcripts
+- Media
+- Content
+created: '2026-07-03'
+modified: '2026-07-03'
+specificationVersion: '0.19'
+apis:
+- aid: taddy:taddy-podcast-search-api
+  name: Taddy Podcast Search API
+  tags:
+  - Search
+  - Podcasts
+  - Full Text Search
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://taddy.org/developers/podcast-api/search
+  baseURL: https://api.taddy.org
+  properties:
+  - url: https://taddy.org/developers/podcast-api/search
+    type: Documentation
+  - url: https://taddy.org/developers/intro-to-taddy-graphql-api
+    type: APIReference
+  - url: graphql/taddy-graphql.md
+    type: GraphQL
+  - url: graphql/taddy-schema.graphql
+    type: GraphQL
+  description: Blazing-fast full-text `search` query across all 4M+ podcasts and 200M+
+    episodes, with filters for country, genre, language, publish date, and whether a
+    transcript is available, and sortable by exactness or popularity.
+- aid: taddy:taddy-podcast-series-episodes-api
+  name: Taddy Podcast Series & Episodes API
+  tags:
+  - Podcasts
+  - Episodes
+  - Metadata
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://taddy.org/developers/podcast-api/get-podcast-series
+  baseURL: https://api.taddy.org
+  properties:
+  - url: https://taddy.org/developers/podcast-api/get-podcast-series
+    type: Documentation
+  - url: https://taddy.org/developers/podcast-api/podcastseries
+    type: APIReference
+  - url: graphql/taddy-graphql.md
+    type: GraphQL
+  - url: graphql/taddy-schema.graphql
+    type: GraphQL
+  description: Look up podcast series and episodes via getPodcastSeries, getPodcastEpisode,
+    getMultiplePodcastSeries, getMultiplePodcastEpisodes, and getLatestPodcastEpisodes,
+    keyed by Taddy uuid, name, RSS URL, or iTunes ID.
+- aid: taddy:taddy-transcripts-api
+  name: Taddy Episode Transcripts API
+  tags:
+  - Transcripts
+  - Podcasts
+  - Speech to Text
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://taddy.org/developers/podcast-api/episode-transcripts
+  baseURL: https://api.taddy.org
+  properties:
+  - url: https://taddy.org/developers/podcast-api/episode-transcripts
+    type: Documentation
+  - url: graphql/taddy-graphql.md
+    type: GraphQL
+  - url: graphql/taddy-schema.graphql
+    type: GraphQL
+  description: Retrieve episode transcripts with getEpisodeTranscript and the
+    transcriptWithSpeakersAndTimecodes field, including per-line text, speaker names,
+    and start/end timecodes, backed by Taddy's automatic transcription of episodes
+    that lack a publisher transcript.
+- aid: taddy:taddy-episode-chapters-api
+  name: Taddy Episode Chapters API
+  tags:
+  - Chapters
+  - Podcasts
+  - Metadata
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://taddy.org/developers/podcast-api
+  baseURL: https://api.taddy.org
+  properties:
+  - url: https://taddy.org/developers/podcast-api
+    type: Documentation
+  - url: graphql/taddy-graphql.md
+    type: GraphQL
+  - url: graphql/taddy-schema.graphql
+    type: GraphQL
+  description: Fetch chapter markers for an episode via getEpisodeChapters and the
+    chapters field, returning chapter titles and start timecodes for chapterized
+    podcasts.
+- aid: taddy:taddy-itunes-info-api
+  name: Taddy iTunes Info API
+  tags:
+  - iTunes
+  - Apple Podcasts
+  - Metadata
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://taddy.org/developers/podcast-api
+  baseURL: https://api.taddy.org
+  properties:
+  - url: https://taddy.org/developers/podcast-api
+    type: Documentation
+  - url: graphql/taddy-graphql.md
+    type: GraphQL
+  - url: graphql/taddy-schema.graphql
+    type: GraphQL
+  description: Resolve Apple Podcasts / iTunes metadata for a podcast with getItunesInfo
+    and the itunesInfo field, including iTunes ID, base artwork URL, categories, and
+    content advisory.
+- aid: taddy:taddy-top-charts-popular-api
+  name: Taddy Top Charts & Popular API
+  tags:
+  - Charts
+  - Rankings
+  - Popular
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://taddy.org/developers/podcast-api
+  baseURL: https://api.taddy.org
+  properties:
+  - url: https://taddy.org/developers/podcast-api
+    type: Documentation
+  - url: graphql/taddy-graphql.md
+    type: GraphQL
+  - url: graphql/taddy-schema.graphql
+    type: GraphQL
+  description: Retrieve daily top charts and popular content with getTopChartsByCountry,
+    getTopChartsByGenre, and getPopularContent, filterable by country, genre, and
+    language.
+- aid: taddy:taddy-comics-creators-api
+  name: Taddy Comics & Creators API
+  tags:
+  - Comics
+  - Creators
+  - Webtoons
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://taddy.org/developers
+  baseURL: https://api.taddy.org
+  properties:
+  - url: https://taddy.org/developers
+    type: Documentation
+  - url: graphql/taddy-graphql.md
+    type: GraphQL
+  - url: graphql/taddy-schema.graphql
+    type: GraphQL
+  description: Access webcomic and creator data via getComicSeries, getComicIssue,
+    getCreator, and getMultipleCreators, covering comic series, individual issues,
+    and the artists, writers, and other creators behind them.
+- aid: taddy:taddy-webhooks-api
+  name: Taddy Webhooks API
+  tags:
+  - Webhooks
+  - Notifications
+  - Real Time
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://taddy.org/developers
+  baseURL: https://api.taddy.org
+  properties:
+  - url: https://taddy.org/developers
+    type: Documentation
+  - url: graphql/taddy-graphql.md
+    type: GraphQL
+  - url: graphql/taddy-schema.graphql
+    type: GraphQL
+  description: Real-time webhook notifications for new and updated content, delivering
+    events such as podcast.created, podcast.updated, podcast.deleted,
+    podcast.new_episodes, and matching creator/creatorcontent events. Available on
+    the Business tier and above.
+- aid: taddy:taddy-account-usage-api
+  name: Taddy Account & Usage API
+  tags:
+  - Usage
+  - Quotas
+  - Account
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://taddy.org/developers/intro-to-taddy-graphql-api
+  baseURL: https://api.taddy.org
+  properties:
+  - url: https://taddy.org/developers/intro-to-taddy-graphql-api
+    type: Documentation
+  - url: graphql/taddy-graphql.md
+    type: GraphQL
+  - url: graphql/taddy-schema.graphql
+    type: GraphQL
+  description: Monitor plan consumption with getApiRequestsRemaining (monthly API
+    request quota) and getTranscriptCreditsRemaining (monthly transcript credit
+    allocation).
+common:
+- type: GitHubOrganization
+  url: https://github.com/taddyorg
+- type: LinkedIn
+  url: https://www.linkedin.com/company/taddy
+- type: Website
+  url: https://taddy.org/
+- type: Documentation
+  url: https://taddy.org/developers
+- type: Plans
+  url: plans/taddy-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/taddy-rate-limits.yml
+- type: FinOps
+  url: finops/taddy-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

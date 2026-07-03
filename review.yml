@@ -1,0 +1,122 @@
+aid: taddy
+name: Taddy
+review:
+  question: Does Taddy expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-03'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. Taddy's public surface is a single
+    request/response GraphQL endpoint (POST https://api.taddy.org). Taddy does
+    provide real-time notifications, but they are delivered as HTTP webhook
+    callbacks (server-to-your-endpoint POSTs), not as a client-facing
+    server-push transport (WebSocket or SSE) on Taddy's own API. GraphQL
+    subscriptions are not documented. There is therefore no server-push
+    transport on Taddy's own API to model with AsyncAPI.
+findings:
+  summary: |
+    Taddy does not publish a documented public WebSocket API. Taddy is a
+    podcasts-and-comics data provider whose entire developer-facing API is a
+    native GraphQL API exposed at a single endpoint, https://api.taddy.org,
+    reached with an HTTP POST carrying a GraphQL query and authenticated with
+    X-USER-ID and X-API-KEY headers. All queries (search, getPodcastSeries,
+    getPodcastEpisode, getEpisodeTranscript, getEpisodeChapters, getItunesInfo,
+    getTopChartsByCountry, getTopChartsByGenre, getPopularContent,
+    getComicSeries, getComicIssue, getCreator, getApiRequestsRemaining, etc.)
+    are request/response over HTTPS. No GraphQL subscription operation and no
+    ws:// or wss:// endpoint are documented. Real-time "new or updated content"
+    delivery is handled by webhooks, which are outbound HTTP POST callbacks
+    from Taddy to a URL you register (available on the Business tier and above),
+    not a bidirectional WebSocket.
+  transports:
+    - protocol: GraphQL over HTTP
+      scheme: https
+      baseURL: https://api.taddy.org
+      documented: true
+      note: Single GraphQL endpoint, POST only, X-USER-ID + X-API-KEY headers. Pure request/response.
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: >-
+        Outbound HTTP POST callbacks for content events (podcast.created,
+        podcast.updated, podcast.deleted, podcast.new_episodes, and matching
+        creator/creatorcontent events). Business tier and above. Server-to-endpoint
+        HTTP, not WebSocket.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint and no GraphQL subscription are documented anywhere in Taddy's developer docs as of the review date.
+  endpointsConfirmed:
+    - POST https://api.taddy.org (GraphQL endpoint)
+  operationsConfirmed:
+    - search
+    - getPodcastSeries
+    - getPodcastEpisode
+    - getMultiplePodcastSeries
+    - getMultiplePodcastEpisodes
+    - getLatestPodcastEpisodes
+    - getEpisodeTranscript
+    - getEpisodeChapters
+    - getItunesInfo
+    - getTopChartsByCountry
+    - getTopChartsByGenre
+    - getPopularContent
+    - getComicSeries
+    - getComicIssue
+    - getCreator
+    - getMultipleCreators
+    - getApiRequestsRemaining
+    - getTranscriptCreditsRemaining
+  operationsModeled:
+    - note: >-
+        Field selections and enum member spellings in graphql/taddy-schema.graphql
+        and graphql/taddy-graphql.md are representative subsets grounded in the
+        Taddy developer docs; the authoritative, exhaustive schema lives at
+        https://ax0.taddy.org/docs/schema.graphql. Confirm exact enum members
+        (Genre, Country, Language) and full field sets there before code use.
+  webhooks:
+    documented: true
+    tierRequirement: Business tier and above
+    events:
+      - podcast.created
+      - podcast.updated
+      - podcast.deleted
+      - podcast.new_episodes
+      - creator.created
+      - creator.updated
+      - creator.deleted
+      - creator.new_content_released
+      - creatorcontent.created
+      - creatorcontent.updated
+      - creatorcontent.deleted
+sources:
+  - url: https://taddy.org/developers
+    type: Documentation
+    note: Product overview; describes GraphQL API, search, transcripts, and webhook events for new/updated data.
+  - url: https://taddy.org/developers/intro-to-taddy-graphql-api
+    type: Documentation
+    note: Getting started; confirms POST endpoint https://api.taddy.org with X-USER-ID and X-API-KEY headers.
+  - url: https://taddy.org/developers/podcast-api
+    type: APIReference
+    note: Podcast API queries (series, episodes, search, top charts, transcripts). All GraphQL request/response.
+  - url: https://taddy.org/developers/podcast-api/episode-transcripts
+    type: Documentation
+    note: Episode transcripts via getEpisodeTranscript; auto-transcription. No streaming/WebSocket transport.
+  - url: https://taddy.org/developers/pricing
+    type: Documentation
+    note: Tiers (Free/Pro/Business) and webhook availability on Business+. No WebSocket product.
+  - url: https://ax0.taddy.org/docs/schema.graphql
+    type: GraphQL
+    note: Authoritative GraphQL SDL. Query/Mutation types only; no Subscription type documented.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface and no GraphQL subscription exist on Taddy's
+    own API. The API is request/response GraphQL over HTTPS, and its only
+    real-time delivery mechanism is outbound HTTP webhooks. No AsyncAPI document
+    was created because there is no client-facing server-push transport to
+    model; the GraphQL request/response surface is captured under graphql/
+    (taddy-graphql.md and taddy-schema.graphql) instead of openapi/, since Taddy
+    is a native GraphQL API rather than REST.

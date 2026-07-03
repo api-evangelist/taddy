@@ -1,0 +1,101 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Taddy
+providerId: taddy
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: true
+tags:
+- Podcasts
+- Comics
+- GraphQL
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Taddy spend. Taddy bills a flat monthly subscription per plan
+  (Free $0, Pro $75, Business $150) that bundles a monthly API request quota and
+  a monthly episode-transcript credit allotment. Overages are handled by
+  upgrading tiers or buying add-ons: extra transcripts in 3,000-credit packs at
+  $75/mo and higher request volumes (e.g. 1M requests for $250/mo). The two
+  cost-driving meters are GraphQL API requests and generated episode
+  transcripts.
+notes: >-
+  Subscription-plus-quota model rather than pure pay-as-you-go; the marginal
+  cost of an API request or transcript is effectively the blended plan/add-on
+  rate. Verify current prices on the Taddy pricing page during reconciliation.
+sources:
+- https://taddy.org/developers/pricing
+- https://taddy.org/developers
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Taddy
+serviceCategory: Media and Content APIs
+billingModel:
+  pricingCategory: Subscription-Based
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Purchase
+  - Usage
+meters:
+- name: api_requests
+  description: GraphQL API requests against https://api.taddy.org, bounded by the monthly plan quota.
+  unit: requests
+  aggregation: sum
+  dimensions:
+  - account
+  - plan
+- name: transcript_credits
+  description: Episode transcripts generated/retrieved, drawn from the monthly transcript credit allotment.
+  unit: transcripts
+  aggregation: sum
+  dimensions:
+  - account
+  - plan
+- name: subscription_fee
+  description: Flat monthly plan subscription fee (Pro $75, Business $150).
+  unit: months
+  aggregation: sum
+  dimensions:
+  - account
+  - plan
+- name: addon_transcript_packs
+  description: Additional 3,000-transcript credit packs purchased at $75/mo each.
+  unit: packs
+  aggregation: sum
+  dimensions:
+  - account
+- name: addon_request_volume
+  description: Higher monthly request-volume add-ons (e.g. 1M requests for $250/mo).
+  unit: requests
+  aggregation: sum
+  dimensions:
+  - account
+focusColumns:
+  ServiceName: Taddy API
+  ServiceCategory: Media and Content APIs
+  ProviderName: Taddy
+  PublisherName: Taddy
+  InvoiceIssuerName: Taddy
+  BillingCurrency: USD
+  ChargeCategory: Purchase
+  PricingCategory: Subscription-Based
+principles:
+- name: Visibility
+  description: Track getApiRequestsRemaining and getTranscriptCreditsRemaining to watch monthly quota burn.
+- name: Allocation
+  description: Issue separate API keys per app/workload to attribute request and transcript consumption.
+- name: Optimization
+  description: Batch lookups with getMultiplePodcastSeries/getMultiplePodcastEpisodes; cache stored results (Taddy permits caching) to avoid re-querying; only transcribe episodes you need.
+- name: Accountability
+  description: Match plan tier to monthly request/transcript demand; buy add-on packs only when consistently exceeding included credits.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

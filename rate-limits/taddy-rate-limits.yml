@@ -1,0 +1,77 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Taddy
+providerId: taddy
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: false
+tags:
+- Podcasts
+- Comics
+- GraphQL
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  Taddy meters usage of its single GraphQL endpoint (https://api.taddy.org)
+  primarily by a monthly API request quota that varies by plan: 500/month on
+  Free, 100,000/month on Pro, 350,000/month on Business, and up to 1,000,000+ on
+  custom volumes. Episode transcript generation is metered separately by a
+  monthly transcript credit allotment (0 on Free, 100 on Pro, 2,000 on Business,
+  plus purchasable 3,000-credit packs). Remaining quota can be checked in-band
+  via the getApiRequestsRemaining and getTranscriptCreditsRemaining queries.
+  Taddy documents monthly quotas rather than published per-second/per-minute
+  burst limits.
+notes: >-
+  No explicit per-second or per-minute burst limit is published on the Taddy
+  pricing/docs pages; the enforced ceiling is the monthly request quota per
+  plan. Confirm any burst throttling and the HTTP status returned when a quota
+  is exhausted during reconciliation.
+sources:
+- https://taddy.org/developers/pricing
+- https://taddy.org/developers/intro-to-taddy-graphql-api
+- https://taddy.org/developers
+responseCodes:
+  throttled: 429
+limits:
+- name: Free Monthly API Requests
+  scope: account
+  metric: requests
+  limit: 500
+  timeFrame: month
+  notes: Free tier monthly quota against the GraphQL endpoint.
+- name: Pro Monthly API Requests
+  scope: account
+  metric: requests
+  limit: 100000
+  timeFrame: month
+  notes: Pro tier ($75/mo) monthly quota.
+- name: Business Monthly API Requests
+  scope: account
+  metric: requests
+  limit: 350000
+  timeFrame: month
+  notes: Business tier ($150/mo) monthly quota.
+- name: Custom / Enterprise Monthly API Requests
+  scope: account
+  metric: requests
+  limit: 1000000
+  timeFrame: month
+  notes: Higher volumes (e.g. 1M req/mo for $250/mo) available on request.
+- name: Monthly Transcript Credits
+  scope: account
+  metric: transcripts
+  limit: see plan
+  timeFrame: month
+  notes: 0 (Free), 100 (Pro), 2,000 (Business); extra 3,000-credit packs at $75/mo.
+policies:
+- name: Quota Notification
+  description: Taddy notifies accounts as they approach their monthly request limit so they can upgrade.
+- name: In-band Quota Checks
+  description: Use getApiRequestsRemaining and getTranscriptCreditsRemaining to monitor remaining monthly allotment.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor Retry-After on throttled responses.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

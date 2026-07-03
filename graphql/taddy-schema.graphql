@@ -1,0 +1,389 @@
+"""
+Taddy GraphQL Schema (subset)
+
+Taddy exposes a real, public GraphQL API at https://api.taddy.org for podcasts
+and comics: series, episodes, transcripts, chapters, iTunes metadata, search,
+top charts, popular content, comics, and creators.
+
+This document captures the confirmed operations and the principal object types
+and enums as documented at https://taddy.org/developers and
+https://ax0.taddy.org/docs/schema.graphql. Field sets are representative; refer
+to the live schema for the exhaustive definition.
+"""
+
+# ─────────────────────────────────────────────
+# Scalars
+# ─────────────────────────────────────────────
+
+scalar Int
+scalar Float
+scalar String
+scalar Boolean
+scalar ID
+
+# ─────────────────────────────────────────────
+# Enums
+# ─────────────────────────────────────────────
+
+enum TaddyType {
+  PODCASTSERIES
+  PODCASTEPISODE
+  COMICSERIES
+  COMICISSUE
+  CREATOR
+}
+
+enum SearchContentType {
+  PODCASTSERIES
+  PODCASTEPISODE
+  COMICSERIES
+  CREATOR
+}
+
+enum PodcastContentType {
+  AUDIO
+  VIDEO
+}
+
+enum SeriesType {
+  EPISODIC
+  SERIAL
+}
+
+enum EpisodeType {
+  FULL
+  TRAILER
+  BONUS
+}
+
+enum SearchSortOrder {
+  EXACTNESS
+  POPULARITY
+}
+
+enum SearchMatchType {
+  EXACT_PHRASE
+  MOST_TERMS
+  ALL_TERMS
+}
+
+enum SortOrder {
+  LATEST
+  OLDEST
+  SEARCH
+}
+
+enum TaddyTranscribeStatus {
+  NOT_TRANSCRIBING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum FeedRefreshPriority {
+  WEBSUB
+  HIGH
+  MEDIUM
+  REGULAR
+  INACTIVE
+  LOW
+  NEVER
+}
+
+enum ContentRole {
+  COMICSERIES_ARTIST
+  COMICSERIES_ARTIST_PENCILER
+  COMICSERIES_ARTIST_INKER
+  COMICSERIES_ARTIST_COLORIST
+  COMICSERIES_ARTIST_LETTERER
+  COMICSERIES_WRITER
+  COMICSERIES_PRODUCER
+  COMICSERIES_EDITOR
+  COMICSERIES_TRANSLATOR
+}
+
+"Language and Genre and Country are large documented enums; representative members shown."
+enum Language {
+  ENGLISH
+  SPANISH
+  FRENCH
+  GERMAN
+  PORTUGUESE
+}
+
+enum Genre {
+  PODCASTSERIES_ARTS
+  PODCASTSERIES_BUSINESS
+  PODCASTSERIES_COMEDY
+  PODCASTSERIES_EDUCATION
+  PODCASTSERIES_FICTION
+  PODCASTSERIES_HEALTH_AND_FITNESS
+  PODCASTSERIES_KIDS_AND_FAMILY
+  PODCASTSERIES_LEISURE
+  PODCASTSERIES_MUSIC
+  PODCASTSERIES_NEWS
+  PODCASTSERIES_RELIGION_AND_SPIRITUALITY
+  PODCASTSERIES_SCIENCE
+  PODCASTSERIES_SOCIETY_AND_CULTURE
+  PODCASTSERIES_SPORTS
+  PODCASTSERIES_TECHNOLOGY
+  PODCASTSERIES_TRUE_CRIME
+  PODCASTSERIES_TV_AND_FILM
+}
+
+enum Country {
+  UNITED_STATES_OF_AMERICA
+  UNITED_KINGDOM
+  CANADA
+  AUSTRALIA
+  GERMANY
+}
+
+# ─────────────────────────────────────────────
+# Core Types
+# ─────────────────────────────────────────────
+
+type PodcastSeries {
+  uuid: ID!
+  name: String
+  description: String
+  imageUrl: String
+  rssUrl: String
+  itunesId: Int
+  language: Language
+  contentType: PodcastContentType
+  seriesType: SeriesType
+  genres: [Genre]
+  websiteUrl: String
+  authorName: String
+  copyright: String
+  isExplicitContent: Boolean
+  totalEpisodesCount: Int
+  popularityRank: String
+  taddyTranscribeStatus: TaddyTranscribeStatus
+  itunesInfo: ItunesInfo
+  feedRefreshDetails: FeedRefreshDetails
+  people: [Person]
+  episodes(sortOrder: SortOrder, page: Int, limitPerPage: Int): [PodcastEpisode]
+}
+
+type PodcastEpisode {
+  uuid: ID!
+  guid: String
+  name: String
+  description: String
+  subtitle: String
+  audioUrl: String
+  videoUrl: String
+  imageUrl: String
+  websiteUrl: String
+  fileLength: Int
+  fileType: String
+  duration: Int
+  datePublished: Int
+  episodeType: EpisodeType
+  seasonNumber: Int
+  episodeNumber: Int
+  isExplicitContent: Boolean
+  isRemoved: Boolean
+  podcastSeries: PodcastSeries
+  taddyTranscribeStatus: TaddyTranscribeStatus
+  transcript: [String]
+  transcriptWithSpeakersAndTimecodes: [TranscriptItem]
+  transcriptUrls: [String]
+  transcriptUrlsWithDetails: [TranscriptLink]
+  chapters: [Chapter]
+}
+
+type TranscriptItem {
+  id: ID
+  text: String
+  speaker: String
+  startTimecode: Int
+  endTimecode: Int
+}
+
+type TranscriptLink {
+  url: String
+  type: String
+  isTaddyExclusive: Boolean
+}
+
+type Chapter {
+  id: ID
+  title: String
+  startTimecode: Int
+}
+
+type ItunesInfo {
+  uuid: ID
+  itunesId: Int
+  baseArtworkUrl: String
+  categories: [String]
+  contentAdvisory: String
+}
+
+type FeedRefreshDetails {
+  uuid: ID
+  priority: FeedRefreshPriority
+  dateLastRefreshed: Int
+}
+
+type Person {
+  uuid: ID
+  name: String
+  role: String
+  imageUrl: String
+}
+
+type ComicSeries {
+  uuid: ID!
+  name: String
+  description: String
+  coverImageUrl: String
+  bannerImageUrl: String
+  language: Language
+  genres: [String]
+  status: String
+  seriesType: String
+  issues(page: Int, limitPerPage: Int): [ComicIssue]
+  creators: [Creator]
+  totalIssuesCount: Int
+}
+
+type ComicIssue {
+  uuid: ID!
+  name: String
+  bannerImageUrl: String
+  datePublished: Int
+  position: Int
+  seriesUuid: ID
+}
+
+type Creator {
+  uuid: ID!
+  name: String
+  bio: String
+  avatarImageUrl: String
+  tags: [String]
+  country: Country
+  links: [CreatorLink]
+  totalContentCount: Int
+  content(page: Int, limitPerPage: Int): [ContentItem]
+  isBlocked: Boolean
+}
+
+type CreatorLink {
+  type: String
+  url: String
+}
+
+union ContentItem = PodcastSeries | ComicSeries
+
+# ─────────────────────────────────────────────
+# Search / Charts result wrappers
+# ─────────────────────────────────────────────
+
+type SearchResults {
+  searchId: ID
+  podcastSeries: [PodcastSeries]
+  podcastEpisodes: [PodcastEpisode]
+  comicSeries: [ComicSeries]
+  creators: [Creator]
+  responseDetails: [SearchResponseDetail]
+}
+
+type SearchResponseDetail {
+  id: ID
+  type: SearchContentType
+  rankingDetails: String
+}
+
+type TopChartsResults {
+  topChartsId: ID
+  podcastSeries: [PodcastSeries]
+  podcastEpisodes: [PodcastEpisode]
+}
+
+type PopularContentResults {
+  popularityId: ID
+  podcastSeries: [PodcastSeries]
+  comicSeries: [ComicSeries]
+}
+
+# ─────────────────────────────────────────────
+# Query Root
+# ─────────────────────────────────────────────
+
+type Query {
+  "Full-text search across podcasts, episodes, comics, and creators."
+  search(
+    term: String!
+    filterForTypes: [SearchContentType]
+    filterForCountries: [Country]
+    filterForLanguages: [Language]
+    filterForGenres: [Genre]
+    filterForSeriesUuids: [ID]
+    filterForNotInSeriesUuids: [ID]
+    filterForPublishedAfter: Int
+    filterForPublishedBefore: Int
+    filterForLastUpdatedAfter: Int
+    filterForLastUpdatedBefore: Int
+    filterForHasTranscript: Boolean
+    sortBy: SearchSortOrder
+    matchBy: SearchMatchType
+    page: Int
+    limitPerPage: Int
+  ): SearchResults
+
+  "Get one podcast series by uuid, name, rssUrl, or itunesId."
+  getPodcastSeries(uuid: ID, name: String, rssUrl: String, itunesId: Int): PodcastSeries
+
+  "Get one podcast episode by uuid, guid (+ seriesUuidForLookup), or rssUrl."
+  getPodcastEpisode(uuid: ID, guid: String, seriesUuidForLookup: ID, rssUrl: String): PodcastEpisode
+
+  "Get up to 25 podcast series by uuid."
+  getMultiplePodcastSeries(uuids: [ID!]!): [PodcastSeries]
+
+  "Get up to 25 podcast episodes by uuid."
+  getMultiplePodcastEpisodes(uuids: [ID!]!): [PodcastEpisode]
+
+  "Get the most recent episodes across a set of podcast series."
+  getLatestPodcastEpisodes(uuids: [ID!], rssUrls: [String!], page: Int, limitPerPage: Int): [PodcastEpisode]
+
+  "Get the transcript for an episode with per-line text, speaker, and timecodes."
+  getEpisodeTranscript(uuid: ID!, useOnDemandCreditsIfNeeded: Boolean): [TranscriptItem]
+
+  "Get chapter markers for an episode."
+  getEpisodeChapters(uuid: ID!): [Chapter]
+
+  "Get Apple Podcasts / iTunes metadata for a podcast."
+  getItunesInfo(uuid: ID, itunesId: Int): ItunesInfo
+
+  "Daily top charts for a country."
+  getTopChartsByCountry(taddyType: TaddyType!, country: Country!, genre: Genre, page: Int, limitPerPage: Int): TopChartsResults
+
+  "Daily top charts for a genre."
+  getTopChartsByGenre(taddyType: TaddyType!, genre: Genre!, country: Country, page: Int, limitPerPage: Int): TopChartsResults
+
+  "Most popular content, filterable by language and genres."
+  getPopularContent(taddyType: TaddyType!, filterByLanguage: Language, filterByGenres: [Genre], page: Int, limitPerPage: Int): PopularContentResults
+
+  "Get one comic series by uuid or name."
+  getComicSeries(uuid: ID, name: String): ComicSeries
+
+  "Get one comic issue by uuid."
+  getComicIssue(uuid: ID!): ComicIssue
+
+  "Get one creator by uuid, sssUrl, or name."
+  getCreator(uuid: ID, sssUrl: String, name: String): Creator
+
+  "Get up to 25 creators by uuid."
+  getMultipleCreators(uuids: [ID!]!): [Creator]
+
+  "Monthly API request quota remaining for the account."
+  getApiRequestsRemaining: Int
+
+  "Monthly transcript credit allocation remaining for the account."
+  getTranscriptCreditsRemaining: Int
+}

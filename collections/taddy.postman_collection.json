@@ -1,0 +1,329 @@
+{
+  "info": {
+    "name": "Taddy GraphQL API",
+    "description": "Taddy podcasts & comics GraphQL API. Single endpoint https://api.taddy.org (POST). Set the userId and apiKey collection variables to your Taddy X-USER-ID and X-API-KEY.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.taddy.org" },
+    { "key": "userId", "value": "" },
+    { "key": "apiKey", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Search",
+      "item": [
+        {
+          "name": "search",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-USER-ID", "value": "{{userId}}" },
+              { "key": "X-API-KEY", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] },
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{ search(term:\"true crime\", filterForTypes:[PODCASTSERIES], filterForHasTranscript:true, sortBy:POPULARITY, page:1, limitPerPage:25){ searchId podcastSeries { uuid name totalEpisodesCount } } }",
+                "variables": ""
+              }
+            },
+            "description": "Full-text search across podcasts, episodes, comics, and creators."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Podcast Series & Episodes",
+      "item": [
+        {
+          "name": "getPodcastSeries",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-USER-ID", "value": "{{userId}}" },
+              { "key": "X-API-KEY", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] },
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{ getPodcastSeries(name:\"This American Life\"){ uuid name itunesId rssUrl totalEpisodesCount episodes(limitPerPage:5){ uuid name datePublished audioUrl } } }",
+                "variables": ""
+              }
+            },
+            "description": "Get one podcast series by uuid, name, rssUrl, or itunesId."
+          }
+        },
+        {
+          "name": "getPodcastEpisode",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-USER-ID", "value": "{{userId}}" },
+              { "key": "X-API-KEY", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] },
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{ getPodcastEpisode(uuid:\"EPISODE_UUID\"){ uuid name datePublished audioUrl duration taddyTranscribeStatus } }",
+                "variables": ""
+              }
+            },
+            "description": "Get one podcast episode by uuid, guid (+seriesUuidForLookup), or rssUrl."
+          }
+        },
+        {
+          "name": "getLatestPodcastEpisodes",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-USER-ID", "value": "{{userId}}" },
+              { "key": "X-API-KEY", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] },
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{ getLatestPodcastEpisodes(uuids:[\"UUID_1\",\"UUID_2\"], page:1, limitPerPage:20){ uuid name datePublished } }",
+                "variables": ""
+              }
+            },
+            "description": "Get the most recent episodes across a set of podcast series."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Transcripts & Chapters",
+      "item": [
+        {
+          "name": "getEpisodeTranscript",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-USER-ID", "value": "{{userId}}" },
+              { "key": "X-API-KEY", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] },
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{ getEpisodeTranscript(uuid:\"EPISODE_UUID\"){ id text speaker startTimecode endTimecode } }",
+                "variables": ""
+              }
+            },
+            "description": "Get an episode transcript with per-line text, speaker names, and timecodes."
+          }
+        },
+        {
+          "name": "getEpisodeChapters",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-USER-ID", "value": "{{userId}}" },
+              { "key": "X-API-KEY", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] },
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{ getEpisodeChapters(uuid:\"EPISODE_UUID\"){ id title startTimecode } }",
+                "variables": ""
+              }
+            },
+            "description": "Get chapter markers for an episode."
+          }
+        }
+      ]
+    },
+    {
+      "name": "iTunes Info",
+      "item": [
+        {
+          "name": "getItunesInfo",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-USER-ID", "value": "{{userId}}" },
+              { "key": "X-API-KEY", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] },
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{ getItunesInfo(uuid:\"PODCAST_UUID\"){ uuid itunesId baseArtworkUrl categories contentAdvisory } }",
+                "variables": ""
+              }
+            },
+            "description": "Get Apple Podcasts / iTunes metadata for a podcast."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Top Charts & Popular",
+      "item": [
+        {
+          "name": "getTopChartsByCountry",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-USER-ID", "value": "{{userId}}" },
+              { "key": "X-API-KEY", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] },
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{ getTopChartsByCountry(taddyType:PODCASTSERIES, country:UNITED_STATES_OF_AMERICA, page:1, limitPerPage:25){ topChartsId podcastSeries { uuid name } } }",
+                "variables": ""
+              }
+            },
+            "description": "Daily top charts for a country."
+          }
+        },
+        {
+          "name": "getTopChartsByGenre",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-USER-ID", "value": "{{userId}}" },
+              { "key": "X-API-KEY", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] },
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{ getTopChartsByGenre(taddyType:PODCASTSERIES, genre:PODCASTSERIES_TECHNOLOGY, page:1, limitPerPage:25){ topChartsId podcastSeries { uuid name } } }",
+                "variables": ""
+              }
+            },
+            "description": "Daily top charts for a genre."
+          }
+        },
+        {
+          "name": "getPopularContent",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-USER-ID", "value": "{{userId}}" },
+              { "key": "X-API-KEY", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] },
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{ getPopularContent(taddyType:PODCASTSERIES, filterByLanguage:ENGLISH, page:1, limitPerPage:25){ popularityId podcastSeries { uuid name } } }",
+                "variables": ""
+              }
+            },
+            "description": "Most popular content, filterable by language and genres."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Comics & Creators",
+      "item": [
+        {
+          "name": "getComicSeries",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-USER-ID", "value": "{{userId}}" },
+              { "key": "X-API-KEY", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] },
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{ getComicSeries(name:\"Adventures of God\"){ uuid name description coverImageUrl issues { uuid name } } }",
+                "variables": ""
+              }
+            },
+            "description": "Get one comic series by uuid or name."
+          }
+        },
+        {
+          "name": "getCreator",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-USER-ID", "value": "{{userId}}" },
+              { "key": "X-API-KEY", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] },
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{ getCreator(name:\"Some Creator\"){ uuid name bio avatarImageUrl totalContentCount } }",
+                "variables": ""
+              }
+            },
+            "description": "Get one creator by uuid, sssUrl, or name."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Account & Usage",
+      "item": [
+        {
+          "name": "getApiRequestsRemaining",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-USER-ID", "value": "{{userId}}" },
+              { "key": "X-API-KEY", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] },
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{ getApiRequestsRemaining }",
+                "variables": ""
+              }
+            },
+            "description": "Monthly API request quota remaining for the account."
+          }
+        },
+        {
+          "name": "getTranscriptCreditsRemaining",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-USER-ID", "value": "{{userId}}" },
+              { "key": "X-API-KEY", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}", "host": ["{{baseUrl}}"] },
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{ getTranscriptCreditsRemaining }",
+                "variables": ""
+              }
+            },
+            "description": "Monthly transcript credit allotment remaining for the account."
+          }
+        }
+      ]
+    }
+  ]
+}

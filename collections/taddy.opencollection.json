@@ -1,0 +1,233 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Taddy GraphQL API",
+    "version": "1.0"
+  },
+  "request": {
+    "url": "https://api.taddy.org",
+    "header": [
+      { "key": "Content-Type", "value": "application/json" },
+      { "key": "X-USER-ID", "value": "{{userId}}" },
+      { "key": "X-API-KEY", "value": "{{apiKey}}" }
+    ]
+  },
+  "items": [
+    {
+      "info": { "name": "Search", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "search - full-text search across podcasts, episodes, comics, creators", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.taddy.org",
+            "body": {
+              "type": "json",
+              "data": "{\"query\":\"{ search(term:\\\"true crime\\\", filterForTypes:[PODCASTSERIES], filterForHasTranscript:true, sortBy:POPULARITY, page:1, limitPerPage:25){ searchId podcastSeries { uuid name totalEpisodesCount } } }\"}"
+            }
+          },
+          "docs": "Blazing-fast full-text search across all podcasts, episodes, comics, and creators with country/genre/language/date/transcript filters."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Podcast Series & Episodes", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "getPodcastSeries", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.taddy.org",
+            "body": {
+              "type": "json",
+              "data": "{\"query\":\"{ getPodcastSeries(name:\\\"This American Life\\\"){ uuid name itunesId rssUrl totalEpisodesCount episodes(limitPerPage:5){ uuid name datePublished audioUrl } } }\"}"
+            }
+          },
+          "docs": "Get one podcast series by uuid, name, rssUrl, or itunesId."
+        },
+        {
+          "info": { "name": "getPodcastEpisode", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.taddy.org",
+            "body": {
+              "type": "json",
+              "data": "{\"query\":\"{ getPodcastEpisode(uuid:\\\"EPISODE_UUID\\\"){ uuid name datePublished audioUrl duration taddyTranscribeStatus } }\"}"
+            }
+          },
+          "docs": "Get one podcast episode by uuid, guid (+seriesUuidForLookup), or rssUrl."
+        },
+        {
+          "info": { "name": "getMultiplePodcastSeries", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.taddy.org",
+            "body": {
+              "type": "json",
+              "data": "{\"query\":\"{ getMultiplePodcastSeries(uuids:[\\\"UUID_1\\\",\\\"UUID_2\\\"]){ uuid name } }\"}"
+            }
+          },
+          "docs": "Get up to 25 podcast series by uuid."
+        },
+        {
+          "info": { "name": "getLatestPodcastEpisodes", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.taddy.org",
+            "body": {
+              "type": "json",
+              "data": "{\"query\":\"{ getLatestPodcastEpisodes(uuids:[\\\"UUID_1\\\",\\\"UUID_2\\\"], page:1, limitPerPage:20){ uuid name datePublished } }\"}"
+            }
+          },
+          "docs": "Get the most recent episodes across a set of podcast series."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Transcripts & Chapters", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "getEpisodeTranscript", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.taddy.org",
+            "body": {
+              "type": "json",
+              "data": "{\"query\":\"{ getEpisodeTranscript(uuid:\\\"EPISODE_UUID\\\"){ id text speaker startTimecode endTimecode } }\"}"
+            }
+          },
+          "docs": "Get an episode transcript with per-line text, speaker names, and timecodes."
+        },
+        {
+          "info": { "name": "getEpisodeChapters", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.taddy.org",
+            "body": {
+              "type": "json",
+              "data": "{\"query\":\"{ getEpisodeChapters(uuid:\\\"EPISODE_UUID\\\"){ id title startTimecode } }\"}"
+            }
+          },
+          "docs": "Get chapter markers for an episode."
+        }
+      ]
+    },
+    {
+      "info": { "name": "iTunes Info", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "getItunesInfo", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.taddy.org",
+            "body": {
+              "type": "json",
+              "data": "{\"query\":\"{ getItunesInfo(uuid:\\\"PODCAST_UUID\\\"){ uuid itunesId baseArtworkUrl categories contentAdvisory } }\"}"
+            }
+          },
+          "docs": "Get Apple Podcasts / iTunes metadata for a podcast."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Top Charts & Popular", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "getTopChartsByCountry", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.taddy.org",
+            "body": {
+              "type": "json",
+              "data": "{\"query\":\"{ getTopChartsByCountry(taddyType:PODCASTSERIES, country:UNITED_STATES_OF_AMERICA, page:1, limitPerPage:25){ topChartsId podcastSeries { uuid name } } }\"}"
+            }
+          },
+          "docs": "Daily top charts for a country."
+        },
+        {
+          "info": { "name": "getTopChartsByGenre", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.taddy.org",
+            "body": {
+              "type": "json",
+              "data": "{\"query\":\"{ getTopChartsByGenre(taddyType:PODCASTSERIES, genre:PODCASTSERIES_TECHNOLOGY, page:1, limitPerPage:25){ topChartsId podcastSeries { uuid name } } }\"}"
+            }
+          },
+          "docs": "Daily top charts for a genre."
+        },
+        {
+          "info": { "name": "getPopularContent", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.taddy.org",
+            "body": {
+              "type": "json",
+              "data": "{\"query\":\"{ getPopularContent(taddyType:PODCASTSERIES, filterByLanguage:ENGLISH, page:1, limitPerPage:25){ popularityId podcastSeries { uuid name } } }\"}"
+            }
+          },
+          "docs": "Most popular content, filterable by language and genres."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Comics & Creators", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "getComicSeries", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.taddy.org",
+            "body": {
+              "type": "json",
+              "data": "{\"query\":\"{ getComicSeries(name:\\\"Adventures of God\\\"){ uuid name description coverImageUrl issues { uuid name } } }\"}"
+            }
+          },
+          "docs": "Get one comic series by uuid or name."
+        },
+        {
+          "info": { "name": "getCreator", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.taddy.org",
+            "body": {
+              "type": "json",
+              "data": "{\"query\":\"{ getCreator(name:\\\"Some Creator\\\"){ uuid name bio avatarImageUrl totalContentCount } }\"}"
+            }
+          },
+          "docs": "Get one creator by uuid, sssUrl, or name."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Account & Usage", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "getApiRequestsRemaining", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.taddy.org",
+            "body": {
+              "type": "json",
+              "data": "{\"query\":\"{ getApiRequestsRemaining }\"}"
+            }
+          },
+          "docs": "Monthly API request quota remaining for the account."
+        },
+        {
+          "info": { "name": "getTranscriptCreditsRemaining", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.taddy.org",
+            "body": {
+              "type": "json",
+              "data": "{\"query\":\"{ getTranscriptCreditsRemaining }\"}"
+            }
+          },
+          "docs": "Monthly transcript credit allotment remaining for the account."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
