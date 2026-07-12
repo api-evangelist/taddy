@@ -199,6 +199,8 @@ apis:
     request quota) and getTranscriptCreditsRemaining (monthly transcript credit
     allocation).
 common:
+- type: DomainSecurity
+  url: security/taddy-domain-security.yml
 - type: GitHubOrganization
   url: https://github.com/taddyorg
 - type: LinkedIn
@@ -213,6 +215,8 @@ common:
   url: rate-limits/taddy-rate-limits.yml
 - type: FinOps
   url: finops/taddy-finops.yml
+- url: https://taddy.org/blog
+  type: Blog
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
