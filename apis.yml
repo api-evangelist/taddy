@@ -38,6 +38,10 @@ apis:
   tags:
   - Search
   - Podcasts
+  - Full-Text Search
+  tags_raw:
+  - Search
+  - Podcasts
   - Full Text Search
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://taddy.org/developers/podcast-api/search
@@ -78,6 +82,10 @@ apis:
 - aid: taddy:taddy-transcripts-api
   name: Taddy Episode Transcripts API
   tags:
+  - Transcripts
+  - Podcasts
+  - Speech-to-Text
+  tags_raw:
   - Transcripts
   - Podcasts
   - Speech to Text
@@ -174,6 +182,10 @@ apis:
 - aid: taddy:taddy-webhooks-api
   name: Taddy Webhooks API
   tags:
+  - Webhook
+  - Notification
+  - Real-Time
+  tags_raw:
   - Webhooks
   - Notifications
   - Real Time
