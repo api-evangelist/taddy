@@ -8,6 +8,17 @@ description: Taddy is a GraphQL API for podcasts and comics, giving developers a
   daily top charts, webcomic and creator data, and webhook notifications for new or
   updated content. All queries hit a single GraphQL endpoint at https://api.taddy.org
   authenticated with X-USER-ID and X-API-KEY headers.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: open
