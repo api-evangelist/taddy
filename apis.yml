@@ -40,6 +40,10 @@ tags:
 - Transcripts
 - Media
 - Content
+- Audio
+- Webhook
+- Podcasting
+- Episodes
 created: '2026-07-03'
 modified: '2026-07-03'
 specificationVersion: '0.23'
@@ -252,6 +256,8 @@ common:
   url: finops/taddy-finops.yml
 - url: https://taddy.org/blog
   type: Blog
+- type: Documentation
+  url: https://taddy.org/developers/podcast-api
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
