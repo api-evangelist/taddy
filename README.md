@@ -1,4 +1,4 @@
-# Taddy (taddy)
+# Taddy
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,125 +64,124 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Taddy is a **GraphQL API** for podcasts and comics. It gives developers access to over 4 million podcasts and 200 million episodes, plus real-time full-text search, automatically generated episode transcripts, chapters, iTunes metadata, daily top charts, webcomic and creator data, and webhook notifications for new or updated content. Every operation is an HTTP `POST` to a single GraphQL endpoint at `https://api.taddy.org`, authenticated with `X-USER-ID` and `X-API-KEY` headers.
+Taddy is a GraphQL API for podcasts and comics, giving developers access to over 4 million podcasts and 200 million episodes, plus real-time full-text search, automatically generated episode transcripts, chapters, iTunes metadata, daily top charts, webcomic and creator data, and webhook notifications for new or updated content. All queries hit a single GraphQL endpoint at https://api.taddy.org authenticated with X-USER-ID and X-API-KEY headers.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/taddy/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/taddy/refs/heads/main/apis.yml)
+**Areas:** Podcasts · Comics · GraphQL · Search · Transcripts · Media · Content · Audio · Webhook · Episodes
 
-## Tags
+## Taddy on APIs.io
 
-- Podcasts
-- Comics
-- GraphQL
-- Search
-- Transcripts
-- Media
-- Content
+Everything profiled for Taddy is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/taddy/](https://apis.io/providers/taddy/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (9)
 
-- **Created:** 2026-07-03
-- **Modified:** 2026-07-03
+- [Taddy Podcast Search API](https://apis.io/apis/taddy/taddy-podcast-search-api/) — Blazing-fast full-text `search` query across all 4M+ podcasts and 200M+ episodes, with filters for country, genre, language, publish date, and whether a…
+- [Taddy Podcast Series & Episodes API](https://apis.io/apis/taddy/taddy-podcast-series-episodes-api/) — Look up podcast series and episodes via getPodcastSeries, getPodcastEpisode, getMultiplePodcastSeries, getMultiplePodcastEpisodes, and…
+- [Taddy Episode Transcripts API](https://apis.io/apis/taddy/taddy-transcripts-api/) — Retrieve episode transcripts with getEpisodeTranscript and the transcriptWithSpeakersAndTimecodes field, including per-line text, speaker names, and…
+- [Taddy Episode Chapters API](https://apis.io/apis/taddy/taddy-episode-chapters-api/) — Fetch chapter markers for an episode via getEpisodeChapters and the chapters field, returning chapter titles and start timecodes for chapterized podcasts.
+- [Taddy iTunes Info API](https://apis.io/apis/taddy/taddy-itunes-info-api/) — Resolve Apple Podcasts / iTunes metadata for a podcast with getItunesInfo and the itunesInfo field, including iTunes ID, base artwork URL, categories, and…
+- [Taddy Top Charts & Popular API](https://apis.io/apis/taddy/taddy-top-charts-popular-api/) — Retrieve daily top charts and popular content with getTopChartsByCountry, getTopChartsByGenre, and getPopularContent, filterable by country, genre, and…
+- [Taddy Comics & Creators API](https://apis.io/apis/taddy/taddy-comics-creators-api/) — Access webcomic and creator data via getComicSeries, getComicIssue, getCreator, and getMultipleCreators, covering comic series, individual issues, and the…
+- [Taddy Webhooks API](https://apis.io/apis/taddy/taddy-webhooks-api/) — Real-time webhook notifications for new and updated content, delivering events such as podcast.created, podcast.updated, podcast.deleted,…
+- [Taddy Account & Usage API](https://apis.io/apis/taddy/taddy-account-usage-api/) — Monitor plan consumption with getApiRequestsRemaining (monthly API request quota) and getTranscriptCreditsRemaining (monthly transcript credit allocation).
 
-## GraphQL
+### Published properties
 
-Taddy is a native GraphQL API — there is no REST surface, so this repo uses `graphql/` rather than `openapi/`.
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-- **Endpoint:** `https://api.taddy.org` (POST)
-- **Headers:** `Content-Type: application/json`, `X-USER-ID`, `X-API-KEY`
-- **Schema (authoritative):** [https://ax0.taddy.org/docs/schema.graphql](https://ax0.taddy.org/docs/schema.graphql)
-- **Local docs:** [graphql/taddy-graphql.md](graphql/taddy-graphql.md) — [GraphQL SDL](graphql/taddy-schema.graphql)
+#### GraphQL (1)
 
-## APIs
+GraphQL schemas.
 
-The single Taddy GraphQL schema is grouped below into logical APIs by operation.
+- [Taddy GraphQL API](https://apis.io/graphqls/taddy/taddy-graphql/)
 
-### Taddy Podcast Search API
+#### Collections (1)
 
-Blazing-fast full-text `search` across all 4M+ podcasts and 200M+ episodes, with filters for country, genre, language, publish date, and whether a transcript is available, sortable by exactness or popularity.
+Postman and Open Collection request collections.
 
-- **Human URL:** [https://taddy.org/developers/podcast-api/search](https://taddy.org/developers/podcast-api/search)
-- **Base URL:** `https://api.taddy.org`
+- [Taddy GraphQL API](https://apis.io/collections/taddy/open-taddy/)
 
-### Taddy Podcast Series & Episodes API
+#### Security (1)
 
-Look up podcast series and episodes via `getPodcastSeries`, `getPodcastEpisode`, `getMultiplePodcastSeries`, `getMultiplePodcastEpisodes`, and `getLatestPodcastEpisodes`, keyed by Taddy uuid, name, RSS URL, or iTunes ID.
+Authentication, trust centre, and vulnerability disclosure.
 
-- **Human URL:** [https://taddy.org/developers/podcast-api/get-podcast-series](https://taddy.org/developers/podcast-api/get-podcast-series)
-- **Base URL:** `https://api.taddy.org`
+- [Taddy Domain Security](https://apis.io/security/taddy/taddy-domain-security/)
 
-### Taddy Episode Transcripts API
+#### Plans and pricing (1)
 
-Retrieve episode transcripts with `getEpisodeTranscript` and the `transcriptWithSpeakersAndTimecodes` field — per-line text, speaker names, and start/end timecodes — backed by Taddy's automatic transcription of episodes that lack a publisher transcript.
+Published plans, tiers and prices.
 
-- **Human URL:** [https://taddy.org/developers/podcast-api/episode-transcripts](https://taddy.org/developers/podcast-api/episode-transcripts)
-- **Base URL:** `https://api.taddy.org`
+- [Taddy Plans Pricing](https://apis.io/plans/taddy/taddy-plans-pricing/)
 
-### Taddy Episode Chapters API
+#### Rate limits (1)
 
-Fetch chapter markers for an episode via `getEpisodeChapters` and the `chapters` field.
+Published request limits.
 
-- **Human URL:** [https://taddy.org/developers/podcast-api](https://taddy.org/developers/podcast-api)
-- **Base URL:** `https://api.taddy.org`
+- [Taddy Rate Limits](https://apis.io/rate-limits/taddy/taddy-rate-limits/)
 
-### Taddy iTunes Info API
+#### FinOps (1)
 
-Resolve Apple Podcasts / iTunes metadata for a podcast with `getItunesInfo` and the `itunesInfo` field.
+What the API costs to run, by operation.
 
-- **Human URL:** [https://taddy.org/developers/podcast-api](https://taddy.org/developers/podcast-api)
-- **Base URL:** `https://api.taddy.org`
+- [Taddy Finops](https://apis.io/finops/taddy/taddy-finops/)
 
-### Taddy Top Charts & Popular API
+## Where to find this API
 
-Retrieve daily top charts and popular content with `getTopChartsByCountry`, `getTopChartsByGenre`, and `getPopularContent`.
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-- **Human URL:** [https://taddy.org/developers/podcast-api](https://taddy.org/developers/podcast-api)
-- **Base URL:** `https://api.taddy.org`
-
-### Taddy Comics & Creators API
-
-Access webcomic and creator data via `getComicSeries`, `getComicIssue`, `getCreator`, and `getMultipleCreators`.
-
-- **Human URL:** [https://taddy.org/developers](https://taddy.org/developers)
-- **Base URL:** `https://api.taddy.org`
-
-### Taddy Webhooks API
-
-Real-time webhook notifications for new and updated content (`podcast.created`, `podcast.updated`, `podcast.deleted`, `podcast.new_episodes`, plus creator/creatorcontent events). Delivered as outbound HTTP POST callbacks; available on the Business tier and above.
-
-- **Human URL:** [https://taddy.org/developers](https://taddy.org/developers)
-- **Base URL:** `https://api.taddy.org`
-
-### Taddy Account & Usage API
-
-Monitor plan consumption with `getApiRequestsRemaining` (monthly API request quota) and `getTranscriptCreditsRemaining` (monthly transcript credits).
-
-- **Human URL:** [https://taddy.org/developers/intro-to-taddy-graphql-api](https://taddy.org/developers/intro-to-taddy-graphql-api)
-- **Base URL:** `https://api.taddy.org`
-
-## Collections
-
-- [Postman Collection](collections/taddy.postman_collection.json) — GraphQL POST requests
-- [Open Collection](collections/taddy.opencollection.json) — GraphQL POST requests
-
-## Plans & Pricing
-
-Request-metered monthly tiers: **Free** ($0, 500 requests/mo), **Pro** ($75/mo, 100k requests + 100 transcripts), **Business** ($150/mo, 350k requests + 2,000 transcripts + webhooks). Extra transcripts sell in 3,000-credit packs ($75/mo), and higher request volumes (e.g. 1M/mo for $250) are available on request. Notably, Taddy permits storing/caching API data on your own servers.
-
-- [Plans](plans/taddy-plans-pricing.yml)
-- [Rate Limits](rate-limits/taddy-rate-limits.yml)
-- [Fin Ops](finops/taddy-finops.yml)
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/taddyorg)
-- [LinkedIn](https://www.linkedin.com/company/taddy)
 - [Website](https://taddy.org/)
 - [Documentation](https://taddy.org/developers)
-- [Plans](plans/taddy-plans-pricing.yml)
-- [Rate Limits](rate-limits/taddy-rate-limits.yml)
-- [Fin Ops](finops/taddy-finops.yml)
+- [Blog](https://taddy.org/blog)
+- [GitHub](https://github.com/taddyorg)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 21.3** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 71.4 |
+| Contract quality | 35.1 |
+| Contract governance | 0.0 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 19.0 |
+| Access clarity | 7.9 |
+
+**Agent readiness 13.6** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | — |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 5.9** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/taddy/](https://apis.io/providers/taddy/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Taddy: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/taddy/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
